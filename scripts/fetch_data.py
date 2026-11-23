@@ -4,6 +4,8 @@ Source: Open-Meteo Historical Weather API (ERA5 / ERA5-Land reanalysis, ECMWF Co
 Docs:   https://open-meteo.com/en/docs/historical-weather-api
 No API key is needed, so anyone can re-run this script and get the same data.
 
+GenAI declaration: this script was generated with Claude (Anthropic) and reviewed by the author.
+
 Usage:  python scripts/fetch_data.py
 Output: data/sl_weather_2015_2025.csv
 """

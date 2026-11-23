@@ -327,6 +327,9 @@ with tab3:
         st.caption("On ordinary days the ensembles' RMSE is only ~7.3 mm. Trees cannot predict beyond what they have seen, so "
                    "record cyclone rain is always under-forecast.")
 
+    with st.expander("📚 Research: RF vs gradient boosting, and tabular vs image/text data"):
+        st.markdown((ROOT / "docs" / "research.md").read_text(encoding="utf-8").split("\n", 1)[1])
+
     with st.expander("Bagging vs Boosting: Random Forest importance vs LightGBM SHAP"):
         comp = pd.DataFrame({"LightGBM mean |SHAP|": shap_imp / shap_imp.sum(), "Random Forest impurity": rf_imp / rf_imp.sum()}).fillna(0)
         comp = comp.loc[shap_imp.index[:12]][::-1]
