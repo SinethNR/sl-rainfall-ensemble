@@ -1,4 +1,4 @@
-"""Wesi: Sri Lanka Rainfall Ensemble Lab (Streamlit dashboard).
+"""වැසි: Sri Lanka Rainfall Ensemble Lab (Streamlit dashboard).
 
 Loads the models and results saved by ensemble_analysis.ipynb (models/), so it starts
 instantly and never retrains.
@@ -23,7 +23,7 @@ MODELS = ROOT / "models"
 REPO_URL = "https://github.com/SinethNR/sl-rainfall-ensemble"
 HEAVY = 10.0
 
-st.set_page_config(page_title="Wesi: Sri Lanka Rainfall Ensemble Lab", page_icon="🌧️", layout="wide")
+st.set_page_config(page_title="වැසි: Sri Lanka Rainfall Ensemble Lab", page_icon="🌧️", layout="wide")
 
 CITY_COLORS = {"Colombo": "#1f77b4", "Kandy": "#2ca02c", "Galle": "#ff7f0e"}
 FAMILY_COLORS = {"Baseline": "#9e9e9e", "Neural net": "#8c564b", "Bagging": "#1f77b4", "Boosting": "#2ca02c",
@@ -34,7 +34,19 @@ ML_MODELS = ["Ridge (linear)", "Random Forest (Bagging)", "LightGBM (Boosting)",
 
 st.markdown("""
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@600;700&display=swap');
 .block-container {padding-top: 1.6rem;}
+.si {font-family: 'Noto Sans Sinhala', 'Nirmala UI', 'Iskoola Pota', sans-serif;}
+[data-testid="stTab"], .stTabs [data-baseweb="tab"] {margin-right: 1.1rem;}
+[data-testid="stTab"] p, .stTabs [data-baseweb="tab"] p {font-size: 1.1rem !important; font-weight: 600 !important;}
+@media (max-width: 640px) {
+  .block-container {padding-left: .8rem; padding-right: .8rem; padding-top: 1rem;}
+  .hero {padding: 1rem 1.1rem;}
+  .hero h1 {font-size: 1.45rem !important; line-height: 1.25 !important;}
+  .kpi {margin-bottom: .5rem;}
+  [data-testid="stTab"], .stTabs [data-baseweb="tab"] {margin-right: .35rem;}
+  [data-testid="stTab"] p, .stTabs [data-baseweb="tab"] p {font-size: .95rem !important;}
+}
 .hero {background: linear-gradient(120deg, #0b3d5c 0%, #136f63 55%, #e0a100 140%); color: #fff;
        padding: 1.3rem 1.6rem; border-radius: 14px; margin-bottom: 1rem;}
 .hero h1 {color: #fff; margin: 0 0 .25rem 0; font-size: 2.0rem;}
@@ -82,7 +94,7 @@ BEST = M["best_model"]
 # ---------------------------------------------------------------- header
 st.markdown(f"""
 <div class="hero">
-<h1>🌧️ Wesi: Sri Lanka Rainfall Ensemble Lab</h1>
+<h1>🌧️ <span class="si">වැසි</span>: Sri Lanka Rainfall Ensemble Lab</h1>
 <p>How much rain will fall <b>tomorrow</b> in Colombo, Kandy and Galle? Bagging, Boosting, Stacking and an RF + ARIMA hybrid,
 trained on 11 years of <b>real ERA5 reanalysis</b> weather and tested on 2024–2025.</p>
 </div>""", unsafe_allow_html=True)
@@ -96,7 +108,7 @@ for col, (v, l) in zip(st.columns(5), kpis):
     col.markdown(f'<div class="kpi"><div class="v">{v}</div><div class="l">{l}</div></div>', unsafe_allow_html=True)
 st.write("")
 
-tab1, tab2, tab3, tab4 = st.tabs(["🇱🇰 Overview & climate", "🏆 Model arena", "🔍 Why? Explainability", "🔮 Live predictor"])
+tab1, tab2, tab3, tab4 = st.tabs(["🌦️ Overview & climate", "🏆 Model arena", "🔍 Why? Explainability", "🔮 Live predictor"])
 
 # ================================================================ TAB 1
 with tab1:
@@ -134,7 +146,7 @@ with tab1:
         st.subheader("Chance of a heavy-rain tomorrow (≥ 10 mm)")
         hm = feat.pivot_table(index="city", columns="monsoon_season", values="rain_tomorrow_event", aggfunc="mean")[SEASONS] * 100
         fig = px.imshow(hm.round(0), text_auto=".0f", color_continuous_scale="Blues", aspect="auto",
-                        labels={"color": "% of days"})
+                        labels={"color": "% of days", "x": "", "y": ""})
         fig.update_layout(height=300, margin=dict(t=10, b=10), coloraxis_showscale=False)
         st.plotly_chart(fig, width="stretch")
         st.caption("Season × city interaction: Colombo jumps from 10% (Maha) to 44% (Oct–Nov). Tree ensembles learn this.")
@@ -182,8 +194,12 @@ with tab2:
                       format_func=lambda m: {"RMSE_mm": "RMSE (mm)", "MAE_mm": "MAE (mm)", "R2": "R²", "HeavyRain_AUC": "Heavy-rain AUC"}[m])
     asc = metric in ("RMSE_mm", "MAE_mm")
     s = show.sort_values(metric, ascending=not asc).reset_index(names="Model")
-    fig = px.bar(s, x=metric, y="Model", color="Family", orientation="h", color_discrete_map=FAMILY_COLORS, text=s[metric].round(3))
-    fig.update_layout(height=430, yaxis=dict(categoryorder="array", categoryarray=s["Model"].tolist()), margin=dict(t=10))
+    METRIC_LABELS = {"RMSE_mm": "RMSE (mm), lower is better", "MAE_mm": "MAE (mm), lower is better",
+                     "R2": "R², higher is better", "HeavyRain_AUC": "Heavy-rain AUC, higher is better"}
+    fig = px.bar(s, x=metric, y="Model", color="Family", orientation="h", color_discrete_map=FAMILY_COLORS, text=s[metric].round(3),
+                 labels={metric: METRIC_LABELS[metric], "Model": ""})
+    fig.update_layout(height=470, yaxis=dict(categoryorder="array", categoryarray=s["Model"].tolist()), margin=dict(t=60),
+                      legend=dict(orientation="h", y=1.02, yanchor="bottom", x=0, title_text=""))
     st.plotly_chart(fig, width="stretch")
 
     c1, c2 = st.columns(2)
@@ -305,7 +321,7 @@ with tab3:
         ex = ex[ex.index.isin(ML_MODELS + ["Hybrid RF + ARIMA", "ARIMA (per city)"])].sort_values("RMSE_all_days")
         fig = go.Figure([go.Bar(x=ex.index, y=ex["RMSE_all_days"], name="all days", marker_color="#d62728"),
                          go.Bar(x=ex.index, y=ex["RMSE_without_top1pct"], name="without 22 extreme days", marker_color="#136f63")])
-        fig.update_layout(barmode="group", height=320, yaxis_title="RMSE (mm)", margin=dict(t=10), legend=dict(orientation="h", y=1.12))
+        fig.update_layout(barmode="group", height=340, yaxis_title="RMSE (mm)", margin=dict(t=50), legend=dict(orientation="h", y=1.04, yanchor="bottom", x=0))
         st.plotly_chart(fig, width="stretch")
         st.caption("On ordinary days the ensembles' RMSE is only ~7.3 mm. Trees cannot predict beyond what they have seen, so "
                    "record cyclone rain is always under-forecast.")
@@ -427,11 +443,12 @@ with tab4:
         k4.metric("What actually fell tomorrow", "—", help="Hidden because you changed the weather: this is now a what-if scenario.")
 
     fig = px.bar(res, x="Forecast (mm)", y="Model", color="Family", orientation="h", color_discrete_map=FAMILY_COLORS,
-                 text=res["Forecast (mm)"].round(1))
+                 text=res["Forecast (mm)"].round(1), labels={"Forecast (mm)": "Tomorrow's rain forecast (mm)", "Model": ""})
     fig.add_vline(x=HEAVY, line_dash="dot", line_color="#d62728", annotation_text="heavy rain 10 mm")
     if untouched:
         fig.add_vline(x=row["rain_tomorrow_mm"], line_color="black", annotation_text="actual", annotation_position="bottom right")
-    fig.update_layout(height=430, margin=dict(t=10), yaxis=dict(categoryorder="array", categoryarray=res["Model"].tolist()))
+    fig.update_layout(height=470, margin=dict(t=70), yaxis=dict(categoryorder="array", categoryarray=res["Model"].tolist()),
+                      legend=dict(orientation="h", y=1.04, yanchor="bottom", x=0, title_text=""))
     st.plotly_chart(fig, width="stretch")
     st.caption("All forecasts are in real mm (expm1 + smearing correction). Changing today's rain also updates the rolling means, wet/dry "
                "streaks, the city's cross-city rain feature and the ARIMA one-step forecast; humidity updates the dew point.")
@@ -453,5 +470,5 @@ In line with the module's Generative AI policy:
 - All AI-assisted code was **run, checked and reviewed by the author**. The dataset is **real** ERA5 reanalysis weather downloaded from
   Open-Meteo, not generated by AI, and every number shown comes from actually executing the notebook.
 """)
-st.caption(f"Wesi · University of Moratuwa, Semester 7 Machine Learning hands-on project · Sineth · "
+st.caption(f"වැසි · University of Moratuwa, Semester 7 Machine Learning hands-on project · Sineth · "
            f"[GitHub]({REPO_URL}) · Weather data: Open-Meteo.com (CC BY 4.0), ERA5 by Copernicus / ECMWF")

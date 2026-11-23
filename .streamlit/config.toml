@@ -2,5 +2,8 @@
 primaryColor = "#136f63"
 base = "light"
 
+[client]
+toolbarMode = "minimal"
+
 [server]
 headless = true

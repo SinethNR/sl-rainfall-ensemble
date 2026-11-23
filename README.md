@@ -1,4 +1,4 @@
-# 🌧️ Wesi — Sri Lanka Rainfall Ensemble Lab
+# 🌧️ වැසි (Wæsi, "rain"): Sri Lanka Rainfall Ensemble Lab
 
 **Predicting tomorrow's rainfall in Colombo, Kandy and Galle with Bagging, Boosting, Stacking and an RF + ARIMA hybrid.**
 
@@ -91,7 +91,7 @@ streamlit run app.py
 
 | Tab | What it shows |
 |---|---|
-| 🇱🇰 Overview & climate | KPI cards, two-peak monsoon climatology, city map, season × city heavy-rain heatmap, annual totals, Cyclone Roanu / Ditwah callout |
+| 🌦️ Overview & climate | KPI cards, two-peak monsoon climatology, city map, season × city heavy-rain heatmap, annual totals, Cyclone Roanu / Ditwah callout |
 | 🏆 Model arena | Filterable test leaderboard, metric bar charts, paired-bootstrap significance, smearing before/after, forecast vs reality time series, error by city and season |
 | 🔍 Why? Explainability | SHAP importance + beeswarm, why XGBoost led, why stacking flattened cyclone peaks, how RF + ARIMA beat ARIMA, stacking weights, extreme-day error share |
 | 🔮 Live predictor | Pick a real 2024–2025 day and city, move today's weather sliders, and see all 9 models' forecasts in mm with a heavy-rain risk level |
