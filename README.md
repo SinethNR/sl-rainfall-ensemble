@@ -3,7 +3,7 @@
 **Predicting tomorrow's rainfall in Colombo, Kandy and Galle with Bagging, Boosting, Stacking and an RF + ARIMA hybrid.**
 
 > University of Moratuwa · Semester 7 · Machine Learning · Hands-on Project (Ensemble Learning Dashboard)
-> Author: Sineth · Live dashboard: _link added after deployment_
+> Author: Sineth · **Live dashboard: https://wesi-sl-rainfall.streamlit.app**
 
 ---
 
@@ -134,7 +134,7 @@ The top ensembles are statistically tied (paired bootstrap). See notebook Sectio
 | Explicitly state AI-generated code | GenAI declaration below, at the top of the notebook, and in the dashboard footer |
 | Executable `.ipynb` | `ensemble_analysis.ipynb`, runs top to bottom |
 | Video ≤ 3 min with voice-over | 2:45 script provided separately |
-| Live dashboard link (optional) | Streamlit Community Cloud URL above |
+| Live dashboard link (optional) | https://wesi-sl-rainfall.streamlit.app |
 
 ## 10. GenAI Usage Declaration
 
