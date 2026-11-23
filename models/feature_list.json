@@ -1,0 +1,48 @@
+{
+  "numeric": [
+    "rain_mm",
+    "rain_lag1",
+    "rain_lag2",
+    "rain_lag3",
+    "rain_roll3",
+    "rain_roll7",
+    "rain_roll14",
+    "rain_roll30",
+    "wet_streak",
+    "dry_streak",
+    "precipitation_hours",
+    "precip_hours_lag1",
+    "temperature_2m_max",
+    "temperature_2m_min",
+    "temperature_2m_mean",
+    "apparent_temperature_mean",
+    "temp_range",
+    "relative_humidity_2m_mean",
+    "humidity_change_1d",
+    "dew_point_2m_mean",
+    "dewpoint_depression",
+    "pressure_msl_mean",
+    "pressure_change_1d",
+    "cloud_cover_mean",
+    "wind_speed_10m_max",
+    "wind_gusts_10m_max",
+    "wind_u",
+    "wind_v",
+    "shortwave_radiation_sum",
+    "et0_fao_evapotranspiration",
+    "month",
+    "doy_sin",
+    "doy_cos",
+    "elevation_m",
+    "rain_today_colombo",
+    "rain_today_kandy",
+    "rain_today_galle"
+  ],
+  "categorical": [
+    "city",
+    "monsoon_season"
+  ],
+  "hybrid_extra": [
+    "arima_next_log"
+  ]
+}
